@@ -8,7 +8,7 @@ namespace MedPlus.Web.Api.Controllers
     [Route("[controller]")]
     public class AppointmentController : ControllerBase
     {
-        SqlConnection _connection = new SqlConnection("Data Source = AUTO6OMFSDDATPS; Initial Catalog = HealthCare; Integrated Security = true");
+        SqlConnection _connection = new SqlConnection("Data Source = AUTOV99GRHTYSQC; Initial Catalog = localdb; Integrated Security = true");
 
 
         private static readonly string[] Summaries = new[]
@@ -39,7 +39,7 @@ namespace MedPlus.Web.Api.Controllers
                 _connection.Close();
 
 
-
+                //
                 if (i == 1)
                 {
                     return "Patient Insert Successfully ";
