@@ -31,6 +31,8 @@ namespace AppoinmentTestAPI.Controllers
       
        // SqlConnection _connection = new SqlConnection("Data Source=AUTOHKQ2XGTH4GW;Initial Catalog=testdb;Persist Security Info=True; User ID=sa; Password=sa");
        
+        //All Patient Details
+
         [HttpGet]
         [Route("AllPatient")]
         public string Get()
@@ -56,7 +58,7 @@ namespace AppoinmentTestAPI.Controllers
                 return ("Error");
             }
         }
-
+        // Create Patient details
         [HttpPost]
         ////Post api/values
         [Route("CreatePatient")]
@@ -86,16 +88,17 @@ namespace AppoinmentTestAPI.Controllers
                 return ("Failed to Insert");
             }
         }
-
+        // Edit Patient details
         [HttpPut]
         [Route("UpdatePatientName")]
-        public string Put(int Patient_ID, [FromBody] string _patientName)
+        public string Put(int Patient_ID, [FromBody] Patient _patientName)
         {
             try
             {
                 string connString = _configuration.GetConnectionString("WebApiDatabase");
                 SqlConnection _connection = new SqlConnection(connString);
-                SqlCommand cmd = new SqlCommand("update patient set Patient_Name = '" + _patientName + "' where Patient_ID =  '" + Patient_ID + "'", _connection);
+                SqlCommand cmd = new SqlCommand("update patient set Patient_Name = '" + _patientName.Patient_Name+ "',Email = '" 
+                    + _patientName.Email_ID + "','" + _patientName.Mobile+ "' where Patient_ID =  '" + Patient_ID + "'", _connection);
                 _connection.Open();
                 int i = cmd.ExecuteNonQuery();
                 _connection.Close();
