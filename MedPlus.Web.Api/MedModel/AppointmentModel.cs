@@ -9,7 +9,7 @@
 
             public DateTime AppointmentDate { get; set; }
 
-            public bool AppointStatus { get; set; }
+            public int AppointStatus { get; set; }
 
             public int PatientID { get; set; }
         }
