@@ -6,6 +6,13 @@ using Newtonsoft.Json;
 using AppoinmentTestAPI.Models;
 using System.Net;
 using System.Data.SqlClient;
+using MedPlus.Web.Api.Controllers;
+
+
+
+
+
+
 
 namespace AppoinmentTestAPI.Controllers
 {
@@ -13,7 +20,16 @@ namespace AppoinmentTestAPI.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        SqlConnection _connection = new SqlConnection("Data Source=AUTOHKQ2XGTH4GW;Initial Catalog=testdb;Persist Security Info=True; User ID=sa; Password=sa");
+        private IConfiguration _configuration;
+
+
+        public PatientController( IConfiguration configuration)
+        {
+
+            _configuration = configuration;
+        }
+      
+       // SqlConnection _connection = new SqlConnection("Data Source=AUTOHKQ2XGTH4GW;Initial Catalog=testdb;Persist Security Info=True; User ID=sa; Password=sa");
        
         [HttpGet]
         [Route("AllPatient")]
@@ -21,6 +37,8 @@ namespace AppoinmentTestAPI.Controllers
         {
             try
             {
+                string connString = _configuration.GetConnectionString("WebApiDatabase");
+                SqlConnection _connection = new SqlConnection(connString);
                 SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Patient", _connection);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -46,6 +64,8 @@ namespace AppoinmentTestAPI.Controllers
         {
             try
             {
+                string connString = _configuration.GetConnectionString("WebApiDatabase");
+                SqlConnection _connection = new SqlConnection(connString);
                 SqlCommand cmd = new SqlCommand("insert into patient (Patient_ID,Patient_Name,Email_ID,Mobile) values" +
                     " ('" + _patient.Patient_ID + "','" + _patient.Patient_Name + "','" + _patient.Email_ID + "' ,'" + _patient.Mobile + "'   )", _connection);
                 _connection.Open();
@@ -73,6 +93,8 @@ namespace AppoinmentTestAPI.Controllers
         {
             try
             {
+                string connString = _configuration.GetConnectionString("WebApiDatabase");
+                SqlConnection _connection = new SqlConnection(connString);
                 SqlCommand cmd = new SqlCommand("update patient set Patient_Name = '" + _patientName + "' where Patient_ID =  '" + Patient_ID + "'", _connection);
                 _connection.Open();
                 int i = cmd.ExecuteNonQuery();

@@ -8,7 +8,9 @@ namespace MedPlus.Web.Api.Controllers
     [Route("[controller]")]
     public class AppointmentController : ControllerBase
     {
-        SqlConnection _connection = new SqlConnection("Data Source = AUTOV99GRHTYSQC; Initial Catalog = localdb; Integrated Security = true");
+
+        //string connString = this.Configuration.GetConnectionString("MyConn");
+      //  SqlConnection _connection = new SqlConnection("Data Source = AUTO6OMFSDDATPS; Initial Catalog = HealthCare; Integrated Security = true");
 
 
         private static readonly string[] Summaries = new[]
@@ -18,9 +20,16 @@ namespace MedPlus.Web.Api.Controllers
 
         private readonly ILogger<AppointmentController> _logger;
 
-        public AppointmentController(ILogger<AppointmentController> logger)
+
+        private IConfiguration _configuration;
+
+        
+
+
+        public AppointmentController(ILogger<AppointmentController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
 
@@ -32,7 +41,10 @@ namespace MedPlus.Web.Api.Controllers
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("insert into Appointment (AppointmentID,AppointmentDate,AppointStatus,PatientID) values" +
+                string connString = _configuration.GetConnectionString("WebApiDatabase");
+                SqlConnection _connection = new SqlConnection(connString);
+
+                SqlCommand cmd = new SqlCommand("insert into Appointment (AppointmentID,AppointmentDate,AppointStatus,Patient_ID) values" +
                     " ('" + _appointment.AppointmentID + "','" + _appointment.AppointmentDate + "','" + _appointment.AppointStatus + "','" + _appointment.PatientID + "'  )", _connection);
                 _connection.Open();
                 int i = cmd.ExecuteNonQuery();
