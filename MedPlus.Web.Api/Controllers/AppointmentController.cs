@@ -39,7 +39,7 @@ namespace MedPlus.Web.Api.Controllers
                 _connection.Close();
 
 
-                //
+                //test
                 if (i == 1)
                 {
                     return "Patient Insert Successfully ";
